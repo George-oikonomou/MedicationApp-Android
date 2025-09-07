@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
-import com.example.medicineApp.database.AppDb;
+import com.example.medicineApp.database.AppDB;
 import com.example.medicineApp.database.repo.PrescriptionRepository;
 import com.example.medicineApp.database.model.PrescriptionModel;
 import com.example.medicineApp.database.model.TimeTermModel;
@@ -33,20 +33,17 @@ public class PrescriptionViewModel extends AndroidViewModel {
 
     public PrescriptionViewModel(@NonNull Application app) {
         super(app);
-        repo = new PrescriptionRepository(AppDb.get(app));
+        repo = new PrescriptionRepository(AppDB.get(app));
         timeTerms = repo.observeTimeTerms();
         LiveData<List<PrescriptionModel>> allPrescriptions = repo.observeAllPrescriptions();
 
-        AppDb.io().execute(() -> repo.recompute_is_activeSync(todayIso()));
+        AppDB.io().execute(() -> repo.recompute_is_activeSync(todayIso()));
 
-        activePrescriptions.addSource(allPrescriptions,
-                list -> recomputeActive(list, timeTerms.getValue()));
-        activePrescriptions.addSource(timeTerms,
-                terms -> recomputeActive(allPrescriptions.getValue(), terms));
+        activePrescriptions.addSource(allPrescriptions, list -> recomputeActive(list, timeTerms.getValue()));
+        activePrescriptions.addSource(timeTerms, terms -> recomputeActive(allPrescriptions.getValue(), terms));
     }
 
-    private void recomputeActive(List<PrescriptionModel> prescriptions,
-                                 List<TimeTermModel> terms) {
+    private void recomputeActive(List<PrescriptionModel> prescriptions, List<TimeTermModel> terms) {
         if (prescriptions == null || prescriptions.isEmpty()) {
             activePrescriptions.setValue(Collections.emptyList());
             return;
@@ -61,9 +58,9 @@ public class PrescriptionViewModel extends AndroidViewModel {
 
         List<PrescriptionModel> validPrescriptions = new ArrayList<>();
         for (PrescriptionModel p : prescriptions) {
-            boolean inRange = p.start_date.compareTo(today) <= 0
-                    && p.end_date.compareTo(today) >= 0;
-            if (inRange) validPrescriptions.add(p);
+            boolean inRange = p.start_date.compareTo(today) <= 0 && p.end_date.compareTo(today) >= 0;
+            if (inRange)
+                validPrescriptions.add(p);
         }
 
         validPrescriptions.sort(Comparator.comparingInt(p -> {
@@ -74,14 +71,13 @@ public class PrescriptionViewModel extends AndroidViewModel {
         activePrescriptions.setValue(validPrescriptions);
     }
 
-    public void addPrescription(String name, String description, String startIso, String endIso,
-                                int timeTermId, String doctor, String location) {
+    public void addPrescription(String name, String description, String startIso, String endIso, int timeTermId, String doctor, String location) {
         if (name == null || name.trim().isEmpty())
             throw new IllegalArgumentException("Prescription name required");
         if (endIso.compareTo(startIso) < 0)
             throw new IllegalArgumentException("End date must be after start date");
 
-        AppDb.io().execute(() -> {
+        AppDB.io().execute(() -> {
             try {
                 repo.addSync(new PrescriptionModel(
                         name.trim(),
@@ -103,14 +99,14 @@ public class PrescriptionViewModel extends AndroidViewModel {
     }
 
     public void deleteByUid(int uid, IntCallback cb) {
-        AppDb.io().execute(() -> {
+        AppDB.io().execute(() -> {
             int rows = repo.deleteByIdSync(uid);
             if (cb != null) cb.accept(rows);
         });
     }
 
     public void receivedToday(int uid, IntConsumer cb) {
-        AppDb.io().execute(() -> {
+        AppDB.io().execute(() -> {
             int rows = repo.markReceivedTodaySync(uid, todayIso());
             if (cb != null) cb.accept(rows);
         });

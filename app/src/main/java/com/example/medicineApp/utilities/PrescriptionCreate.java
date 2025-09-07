@@ -16,7 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.example.medicineApp.R;
-import com.example.medicineApp.database.AppDb;
+import com.example.medicineApp.database.AppDB;
 import com.example.medicineApp.database.enums.TimeTermEnum;
 import com.example.medicineApp.database.model.TimeTermModel;
 import com.example.medicineApp.ui.PrescriptionViewModel;
@@ -54,7 +54,7 @@ public class PrescriptionCreate {
         List<TimeTermModel> initial = vm.timeTerms.getValue();
 
         if (initial == null || initial.isEmpty())
-            initial = AppDb.defaultTimeTerms();
+            initial = AppDB.defaultTimeTerms();
 
         fillTerms(initial, termIds, termLabels, termAdapter);
 

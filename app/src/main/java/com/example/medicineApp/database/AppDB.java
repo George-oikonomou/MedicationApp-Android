@@ -26,22 +26,22 @@ import java.util.concurrent.Executors;
         version = 1
 )
 @TypeConverters()
-public abstract class AppDb extends RoomDatabase {
+public abstract class AppDB extends RoomDatabase {
 
     public abstract PrescriptionDao prescriptionDao();
     public abstract TimeTermDao timeTermDao();
 
-    private static volatile AppDb INSTANCE;
+    private static volatile AppDB INSTANCE;
 
     private static final ExecutorService DB_EXECUTOR = Executors.newSingleThreadExecutor();
 
-    public static AppDb get(Context context) {
+    public static AppDB get(Context context) {
         if (INSTANCE == null) {
-            synchronized (AppDb.class) {
+            synchronized (AppDB.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(
                                     context.getApplicationContext(),
-                                    AppDb.class,
+                                    AppDB.class,
                                     "rx.db"
                             )
                             .fallbackToDestructiveMigration()
@@ -50,7 +50,7 @@ public abstract class AppDb extends RoomDatabase {
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                     super.onCreate(db);
                                     DB_EXECUTOR.execute(() -> {
-                                        AppDb appDb = get(context.getApplicationContext());
+                                        AppDB appDb = get(context.getApplicationContext());
                                         appDb.timeTermDao().insertAll(defaultTimeTerms());
                                     });
                                 }
@@ -59,7 +59,7 @@ public abstract class AppDb extends RoomDatabase {
                                 public void onOpen(@NonNull SupportSQLiteDatabase db) {
                                     super.onOpen(db);
                                     DB_EXECUTOR.execute(() -> {
-                                        AppDb appDb = get(context.getApplicationContext());
+                                        AppDB appDb = get(context.getApplicationContext());
                                         if (appDb.timeTermDao().countSync() == 0) {
                                             appDb.timeTermDao().insertAll(defaultTimeTerms());
                                         }

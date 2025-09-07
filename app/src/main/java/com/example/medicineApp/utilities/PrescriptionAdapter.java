@@ -28,8 +28,7 @@ public class PrescriptionAdapter extends ListAdapter<PrescriptionModel, Prescrip
 
     @NonNull @Override
     public PrescriptionVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.prescription_line, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.prescription_line, parent, false);
 
         return new PrescriptionVH(v);
     }
@@ -58,7 +57,8 @@ public class PrescriptionAdapter extends ListAdapter<PrescriptionModel, Prescrip
 
             scheduleView.setText(TimeTermEnum.labelForId(rx.time_term_id));
 
-            String start = nonNull(rx.start_date), end = nonNull(rx.end_date);
+            String start = formatDate(rx.start_date);
+            String end   = formatDate(rx.end_date);
             datesView.setText(start + " → " + end);
 
             if (subtitleView != null) subtitleView.setText(nonNull(rx.doctor_name));
@@ -90,4 +90,15 @@ public class PrescriptionAdapter extends ListAdapter<PrescriptionModel, Prescrip
                     o.has_received_today == n.has_received_today;
         }
     };
+
+    private static String formatDate(String iso) {
+        if (iso == null || iso.isEmpty()) return "";
+        try {
+            java.text.SimpleDateFormat isoFmt = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US);
+            java.text.SimpleDateFormat niceFmt = new java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.getDefault());
+            return niceFmt.format(Objects.requireNonNull(isoFmt.parse(iso)));
+        } catch (Exception e) {
+            return iso;
+        }
+    }
 }

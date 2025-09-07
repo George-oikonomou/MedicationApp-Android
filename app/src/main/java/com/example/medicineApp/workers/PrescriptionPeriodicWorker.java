@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.example.medicineApp.database.AppDb;
+import com.example.medicineApp.database.AppDB;
 
 public class PrescriptionPeriodicWorker extends Worker {
     public PrescriptionPeriodicWorker(@NonNull Context context, @NonNull WorkerParameters params) {
@@ -16,7 +16,7 @@ public class PrescriptionPeriodicWorker extends Worker {
     @NonNull @Override
     public Result doWork() {
         try {
-            AppDb db = AppDb.get(getApplicationContext());
+            AppDB db = AppDB.get(getApplicationContext());
             db.prescriptionDao().dailyRecompute(isoToday());
             return Result.success();
         } catch (Exception e) {

@@ -2,16 +2,16 @@ package com.example.medicineApp.database.repo;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.medicineApp.database.AppDb;
+import com.example.medicineApp.database.AppDB;
 import com.example.medicineApp.database.model.PrescriptionModel;
 import com.example.medicineApp.database.model.TimeTermModel;
 
 import java.util.List;
 
 public class PrescriptionRepository {
-    private final AppDb db;
+    private final AppDB db;
 
-    public PrescriptionRepository(AppDb db) {
+    public PrescriptionRepository(AppDB db) {
         this.db = db;
     }
     public void addSync(PrescriptionModel prescription){

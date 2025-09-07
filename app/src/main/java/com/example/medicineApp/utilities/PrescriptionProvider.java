@@ -12,7 +12,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.medicineApp.database.AppDb;
+import com.example.medicineApp.database.AppDB;
 import com.example.medicineApp.database.dao.PrescriptionDao;
 import com.example.medicineApp.database.model.PrescriptionModel;
 
@@ -43,7 +43,7 @@ public class PrescriptionProvider extends ContentProvider {
     public boolean onCreate() {
         Context ctx = getContext();
         if (ctx != null) {
-            prescriptionDAO = AppDb.get(ctx).prescriptionDao();
+            prescriptionDAO = AppDB.get(ctx).prescriptionDao();
             return true;
         }
         return false;
@@ -62,7 +62,7 @@ public class PrescriptionProvider extends ContentProvider {
         AtomicReference<Cursor> cursorRef = new AtomicReference<>();
         CountDownLatch latch = new CountDownLatch(1);
 
-        AppDb.io().execute(() -> {
+        AppDB.io().execute(() -> {
             try {
                 switch (match) {
                     case PRESCRIPTIONS:
@@ -122,7 +122,7 @@ public class PrescriptionProvider extends ContentProvider {
         AtomicReference<Long> idRef = new AtomicReference<>(-1L);
         CountDownLatch latch = new CountDownLatch(1);
 
-        AppDb.io().execute(() -> {
+        AppDB.io().execute(() -> {
             idRef.set(prescriptionDAO.insert(entity));
             latch.countDown();
         });
@@ -153,7 +153,7 @@ public class PrescriptionProvider extends ContentProvider {
         AtomicInteger rows = new AtomicInteger(0);
         CountDownLatch latch = new CountDownLatch(1);
 
-        AppDb.io().execute(() -> {
+        AppDB.io().execute(() -> {
             rows.set(prescriptionDAO.updateFromContentValues(id, values));
             latch.countDown();
         });
@@ -177,7 +177,7 @@ public class PrescriptionProvider extends ContentProvider {
         AtomicInteger rows = new AtomicInteger(0);
         CountDownLatch latch = new CountDownLatch(1);
 
-        AppDb.io().execute(() -> {
+        AppDB.io().execute(() -> {
             rows.set(prescriptionDAO.deleteById(id));
             latch.countDown();
         });
