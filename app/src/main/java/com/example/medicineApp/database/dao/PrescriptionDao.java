@@ -38,7 +38,7 @@ public interface PrescriptionDao {
     void recompute_is_active(String today);
 
     @Update
-    void update(List<PrescriptionModel> drugs);
+    void update(List<PrescriptionModel> prescription);
 
     @Update
     int update(PrescriptionModel prescription);

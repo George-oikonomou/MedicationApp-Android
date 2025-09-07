@@ -17,7 +17,7 @@ public class PrescriptionRepository {
     public void addSync(PrescriptionModel prescription){
         db.prescriptionDao().insert(prescription);
     }
-    public LiveData<List<PrescriptionModel>> observeAllDrugs() {
+    public LiveData<List<PrescriptionModel>> observeAllPrescriptions() {
         return db.prescriptionDao().observeAll();
     }
 
@@ -29,7 +29,7 @@ public class PrescriptionRepository {
         return db.prescriptionDao().deleteById(id);
     }
 
-    public LiveData<PrescriptionModel> observeDrug(int id) { return db.prescriptionDao().observeById(id); }
+    public LiveData<PrescriptionModel> observePrescription(int id) { return db.prescriptionDao().observeById(id); }
     public int markReceivedTodaySync(int id, String today) { return db.prescriptionDao().markReceivedToday(id, today); }
     public void recompute_is_activeSync(String today){ db.prescriptionDao().recompute_is_active(today); }
 }

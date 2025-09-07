@@ -35,7 +35,7 @@ public class PrescriptionViewModel extends AndroidViewModel {
         super(app);
         repo = new PrescriptionRepository(AppDb.get(app));
         timeTerms = repo.observeTimeTerms();
-        LiveData<List<PrescriptionModel>> allPrescriptions = repo.observeAllDrugs();
+        LiveData<List<PrescriptionModel>> allPrescriptions = repo.observeAllPrescriptions();
 
         AppDb.io().execute(() -> repo.recompute_is_activeSync(todayIso()));
 
@@ -99,7 +99,7 @@ public class PrescriptionViewModel extends AndroidViewModel {
     }
 
     public LiveData<PrescriptionModel> prescription(int uid) {
-        return repo.observeDrug(uid);
+        return repo.observePrescription(uid);
     }
 
     public void deleteByUid(int uid, IntCallback cb) {
