@@ -21,6 +21,7 @@ import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+import com.example.medicineApp.database.AppDB;
 import com.example.medicineApp.database.model.PrescriptionModel;
 import com.example.medicineApp.ui.PrescriptionViewModel;
 import com.example.medicineApp.utilities.PrescriptionCreate;
@@ -30,8 +31,12 @@ import com.example.medicineApp.utilities.PrescriptionProvider;
 import com.example.medicineApp.workers.PrescriptionPeriodicWorker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 
@@ -43,12 +48,22 @@ public class Dashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
-
         setupBackgroundWorker();
         setupViewModel();
         setupRecyclerView();
         setupButtons();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
+
+        Executors.newSingleThreadExecutor().execute(() -> {
+            AppDB.get(this).prescriptionDao().dailyRecompute(today);
+        });
+    }
+
 
     private void setupBackgroundWorker() {
         PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(PrescriptionPeriodicWorker.class, 1, TimeUnit.DAYS).build();
