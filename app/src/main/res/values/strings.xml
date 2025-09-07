@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">medicineApp</string>
+    <string name="lbl_id">ID</string>
+    <string name="fab_delete_desc">Delete</string>
+    <string name="fab_add_desc">Add</string>
+    <string name="lbl_med_name">Medication</string>
+    <string name="lbl_desc">Description</string>
+    <string name="lbl_dates">Dates</string>
+    <string name="lbl_term">Schedule</string>
+    <string name="end_date">End Date</string>
+    <string name="txt_doc">Doctors Name</string>
+    <string name="lbl_del">Remove Medication</string>
+    <string name="txt_id">Enter ID here</string>
+    <string name="btn_del">Delete Permanently</string>
+    <string name="btn_open_map">Open on Map</string>
+    <string name="medication_details">Medication details</string>
+    <string name="cancel">Cancel</string>
+    <string name="export">Export Meds</string>
+    <string name="med_list">Medication list</string>
+    <string name="cont_prov">Content Provider</string>
+    <string name="lbl_doctor">Doctor</string>
+    <string name="lbl_location">Location</string>
+    <string name="lbl_last">Last received</string>
+    <string name="lbl_today">Received today</string>
+    <string name="btn_received_today">Medication received today</string>
+    <string name="txt_name">Short Name</string>
+    <string name="start_date">Start Date</string>
+    <string name="location">Doctors Location</string>
+    <string name="btn_back_home">Back to Home</string>
+</resources>

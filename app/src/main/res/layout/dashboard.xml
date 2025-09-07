@@ -1,0 +1,98 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+    <!-- Extra spacer top bar -->
+    <View
+        android:id="@+id/topSpacer"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:background="@color/themeColor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+    />
+
+    <!-- Top app bar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
+        android:layout_width="0dp"
+        android:layout_height="72dp"
+        android:background="@color/themeColor"
+        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
+        app:title="@string/med_list"
+        app:titleCentered="false"
+        app:titleTextColor="@android:color/white"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
+        app:contentInsetEnd="@dimen/spacing_l"
+        app:layout_constraintTop_toBottomOf="@id/topSpacer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:elevation="@dimen/spacing_xs">
+
+        <!-- Export -->
+        <ImageButton
+            android:id="@+id/btn_export"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="@dimen/spacing_m"
+            android:padding="@dimen/spacing_s"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/export"
+            app:srcCompat="@drawable/download"
+            app:tint="@android:color/white"
+            android:layout_gravity="center_vertical|end" />
+
+        <!-- Test provider -->
+        <ImageButton
+            android:id="@+id/btn_test_provider"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="@dimen/spacing_s"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/cont_prov"
+            app:srcCompat="@drawable/ic_pill"
+            app:tint="@android:color/white"
+            android:layout_gravity="center_vertical|end" />
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="@dimen/spacing_s"
+        app:layout_constraintTop_toBottomOf="@id/topAppBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Floating action buttons -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:tint="@android:color/white"
+        android:layout_margin="@dimen/spacing_l"
+        app:backgroundTint="@color/themeColor"
+        android:contentDescription="@string/fab_add_desc"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/trash"
+        app:tint="@android:color/white"
+        app:backgroundTint="@color/themeColor"
+        android:layout_margin="@dimen/spacing_l"
+        android:contentDescription="@string/fab_delete_desc"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+    />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

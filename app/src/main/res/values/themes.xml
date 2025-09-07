@@ -1,0 +1,13 @@
+<resources>
+    <style name="Base.Theme.medicineApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor" >@color/themeColor</item>
+
+        <item name="colorPrimary">@color/themeColor</item>
+        <item name="colorPrimaryContainer">@color/themeColor</item>
+        <item name="colorPrimaryVariant">@color/themeColor</item>
+        <item name="colorSecondary">@color/themeColor</item>
+    </style>
+
+    <style name="Theme.medicineApp" parent="Base.Theme.medicineApp" />
+</resources>

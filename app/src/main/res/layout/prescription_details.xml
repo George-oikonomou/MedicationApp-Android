@@ -1,0 +1,280 @@
+<!-- res/layout/fragment_medication_details.xml -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Compact header -->
+    <TextView
+        android:id="@+id/txtTitle"
+        style="?attr/textAppearanceHeadlineSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/spacing_l"
+        android:text="@string/medication_details"
+        android:textColor="?attr/colorOnPrimary"
+        android:background="?attr/colorPrimaryContainer"
+        android:layout_marginBottom="@dimen/spacing_l"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <!-- Scrollable details (made denser) -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/contentScroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
+        app:layout_constraintBottom_toTopOf="@id/actionsCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/spacing_screen_h"
+            android:paddingTop="@dimen/spacing_s"
+            android:paddingBottom="@dimen/spacing_s"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Details card (tighter padding) -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_s"
+                app:cardCornerRadius="@dimen/radius_l"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_m"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- ID -->
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/KeyLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_id" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txtUid"
+                        style="@style/ValueText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textIsSelectable="true"
+                        android:layout_marginBottom="@dimen/spacing_s" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:dividerThickness="1dp"
+                        android:layout_marginVertical="@dimen/spacing_xs" />
+
+                    <!-- Medication -->
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/KeyLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_med_name"
+                        android:layout_marginTop="@dimen/spacing_s"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txtMedName"
+                        style="@style/ValueText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_s" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:dividerThickness="1dp"
+                        android:layout_marginVertical="@dimen/spacing_xs" />
+
+                    <!-- Description -->
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/KeyLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_desc"
+                        android:layout_marginTop="@dimen/spacing_s"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txtDesc"
+                        style="@style/ValueText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_s" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:dividerThickness="1dp"
+                        android:layout_marginVertical="@dimen/spacing_xs" />
+
+                    <!-- Dates -->
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/KeyLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_dates"
+                        android:layout_marginTop="@dimen/spacing_s"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txtDates"
+                        style="@style/ValueText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_s" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:dividerThickness="1dp"
+                        android:layout_marginVertical="@dimen/spacing_xs" />
+
+                    <!-- Schedule -->
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/KeyLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_term"
+                        android:layout_marginTop="@dimen/spacing_s"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txtTimeTerm"
+                        style="@style/ValueText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_s" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:dividerThickness="1dp"
+                        android:layout_marginVertical="@dimen/spacing_xs" />
+
+                    <!-- Doctor -->
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/KeyLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_doctor"
+                        android:layout_marginTop="@dimen/spacing_s"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txtDoctor"
+                        style="@style/ValueText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_s" />
+
+                    <!-- Location -->
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/KeyLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_location"
+                        android:layout_marginTop="@dimen/spacing_s"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txtDoctorLoc"
+                        style="@style/ValueText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_s" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:dividerThickness="1dp"
+                        android:layout_marginVertical="@dimen/spacing_xs" />
+
+                    <!-- Last received -->
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/KeyLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_last"
+                        android:layout_marginTop="@dimen/spacing_s"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txtLast"
+                        style="@style/ValueText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_s" />
+
+                    <!-- Received today -->
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/KeyLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_today"
+                        android:layout_marginTop="@dimen/spacing_s"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txtToday"
+                        style="@style/ValueText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_s" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Pinned actions (always visible) -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/actionsCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_s"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="@dimen/radius_l"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_s"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReceivedToday"
+                style="@style/AppButton.Filled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_received_today"
+                app:icon="@drawable/ic_check" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOpenMaps"
+                style="@style/AppButton.Tonal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_open_map"
+                app:icon="@drawable/ic_map"
+                android:layout_marginTop="@dimen/spacing_xs" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnHome"
+                style="@style/AppButton.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_back_home"
+                app:icon="@drawable/ic_home"
+                android:layout_marginTop="@dimen/spacing_xs" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

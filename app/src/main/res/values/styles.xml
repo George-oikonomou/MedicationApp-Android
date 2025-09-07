@@ -1,0 +1,61 @@
+<resources>
+    <style name="LabelCell">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/label_background</item>
+        <item name="android:textColor">@color/label_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+    </style>
+    <!-- res/values/styles.xml -->
+    <style name="KeyLabel" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <style name="ValueText" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Base icon rules for all app buttons -->
+    <style name="AppButton.Base" parent="Widget.Material3.Button">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">@dimen/radius_l</item>
+        <item name="iconSize">24dp</item>
+        <item name="iconPadding">@dimen/spacing_xs</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
+    <!-- Primary (filled) button -->
+    <style name="AppButton.Filled" parent="AppButton.Base">
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="rippleColor">#14FFFFFF</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="iconTint">?attr/colorOnPrimary</item>
+    </style>
+
+    <!-- Tonal/secondary button -->
+    <style name="AppButton.Tonal" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:minHeight">48dp</item>
+        <item name="cornerRadius">@dimen/radius_l</item>
+        <item name="iconSize">24dp</item>
+        <item name="iconPadding">@dimen/spacing_xs</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconTint">?attr/colorOnSecondaryContainer</item>
+    </style>
+
+    <!-- Outlined button -->
+    <style name="AppButton.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:minHeight">48dp</item>
+        <item name="cornerRadius">@dimen/radius_l</item>
+        <item name="iconSize">24dp</item>
+        <item name="iconPadding">@dimen/spacing_xs</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconTint">?attr/colorPrimary</item>
+        <item name="strokeColor">?attr/colorOutline</item>
+    </style>
+</resources>

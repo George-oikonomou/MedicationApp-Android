@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="?attr/colorSurface">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_l"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <!-- Short Name -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/txt_name"
+            android:layout_marginTop="@dimen/spacing_s"
+            app:boxBackgroundMode="outline"
+            app:boxBackgroundColor="?attr/colorSurfaceVariant"
+            app:boxStrokeColor="@color/themeColor"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="@dimen/spacing_m"
+            app:boxCornerRadiusTopEnd="@dimen/spacing_m"
+            app:boxCornerRadiusBottomStart="@dimen/spacing_m"
+            app:boxCornerRadiusBottomEnd="@dimen/spacing_m"
+            app:startIconDrawable="@drawable/ic_pill"
+            app:startIconTint="?attr/colorPrimary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_short_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Description -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/lbl_desc"
+            android:layout_marginTop="@dimen/spacing_m"
+            app:boxBackgroundMode="outline"
+            app:boxBackgroundColor="?attr/colorSurfaceVariant"
+            app:boxStrokeColor="@color/themeColor"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="@dimen/spacing_m"
+            app:boxCornerRadiusTopEnd="@dimen/spacing_m"
+            app:boxCornerRadiusBottomStart="@dimen/spacing_m"
+            app:boxCornerRadiusBottomEnd="@dimen/spacing_m"
+            app:startIconDrawable="@drawable/ic_description"
+            app:startIconTint="?attr/colorPrimary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:minLines="3"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Doctor -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/txt_doc"
+            android:layout_marginTop="@dimen/spacing_l"
+            app:boxBackgroundMode="outline"
+            app:boxBackgroundColor="?attr/colorSurfaceVariant"
+            app:boxStrokeColor="@color/themeColor"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="@dimen/spacing_m"
+            app:boxCornerRadiusTopEnd="@dimen/spacing_m"
+            app:boxCornerRadiusBottomStart="@dimen/spacing_m"
+            app:boxCornerRadiusBottomEnd="@dimen/spacing_m"
+            app:startIconDrawable="@drawable/ic_person"
+            app:startIconTint="?attr/colorPrimary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_doctor_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Doctor Location -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/location"
+            android:layout_marginTop="@dimen/spacing_m"
+            app:boxBackgroundMode="outline"
+            app:boxBackgroundColor="?attr/colorSurfaceVariant"
+            app:boxStrokeColor="@color/themeColor"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="@dimen/spacing_m"
+            app:boxCornerRadiusTopEnd="@dimen/spacing_m"
+            app:boxCornerRadiusBottomStart="@dimen/spacing_m"
+            app:boxCornerRadiusBottomEnd="@dimen/spacing_m"
+            app:startIconDrawable="@drawable/ic_location"
+            app:startIconTint="?attr/colorPrimary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_doctor_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Start Date -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/spacing_l">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPickStart"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/start_date"
+                app:icon="@drawable/ic_calendar"
+                app:iconGravity="start"
+                app:cornerRadius="@dimen/spacing_m"/>
+
+            <TextView
+                android:id="@+id/txtStart"
+                android:layout_marginStart="@dimen/spacing_m"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnSurface"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <!-- End Date -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/spacing_m">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPickEnd"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/end_date"
+                app:icon="@drawable/ic_calendar"
+                app:iconGravity="start"
+                app:cornerRadius="@dimen/spacing_m"/>
+
+            <TextView
+                android:id="@+id/txtEnd"
+                android:layout_marginStart="@dimen/spacing_m"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnSurface"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <!-- Schedule -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_term"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="@dimen/spacing_xs"
+            android:textColor="?attr/colorPrimary"/>
+
+        <Spinner
+            android:id="@+id/spinnerTimeTerm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorPrimary"/>
+    </LinearLayout>
+</ScrollView>
