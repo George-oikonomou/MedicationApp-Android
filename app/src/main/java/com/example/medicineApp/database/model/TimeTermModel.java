@@ -1,29 +1,27 @@
-package com.example.medicineApp.database.entity;
+package com.example.medicineApp.database.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.medicineApp.database.TimeTermStatus;
+import com.example.medicineApp.database.enums.TimeTermEnum;
 
 @Entity(tableName = "time_term")
-public class TimeTermEntity {
+public class TimeTermModel {
 
-    // FIELDS:
     @PrimaryKey
     @NonNull
     public Integer id;
 
     @NonNull
-    public TimeTermStatus name;
+    public TimeTermEnum name;
 
     @ColumnInfo(name = "sort_order")
     @NonNull
     public Integer sortOrder;
 
-    // Constructor:
-    public TimeTermEntity(@NonNull Integer id, @NonNull TimeTermStatus name, @NonNull Integer sortOrder) {
+    public TimeTermModel(@NonNull Integer id, @NonNull TimeTermEnum name, @NonNull Integer sortOrder) {
         this.id = id;
         this.name = name;
         this.sortOrder = sortOrder;

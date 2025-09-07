@@ -13,15 +13,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.medicineApp.Dashboard;
 import com.example.medicineApp.R;
-import com.example.medicineApp.database.TimeTermStatus;
-import com.example.medicineApp.ui.RxViewModel;
+import com.example.medicineApp.database.enums.TimeTermEnum;
+import com.example.medicineApp.ui.PrescriptionViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class PrescriptionDetailActivity extends AppCompatActivity {
-    private RxViewModel viewModel;
+public class PrescriptionDetail extends AppCompatActivity {
+    private PrescriptionViewModel viewModel;
     private int prescriptionId;
 
     @SuppressLint("SetTextI18n")
@@ -30,17 +30,14 @@ public class PrescriptionDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.prescription_details);
 
-        // ViewModel
-        viewModel = new ViewModelProvider(this).get(RxViewModel.class);
+        viewModel = new ViewModelProvider(this).get(PrescriptionViewModel.class);
 
-        // Read prescription ID from Intent
         prescriptionId = getIntent().getIntExtra("uid", -1);
         if (prescriptionId <= 0) {
             finish();
             return;
         }
 
-        // UI components
         TextView titleView             = findViewById(R.id.txtTitle);
         TextView descView              = findViewById(R.id.txtDesc);
         TextView datesView             = findViewById(R.id.txtDates);
@@ -57,7 +54,6 @@ public class PrescriptionDetailActivity extends AppCompatActivity {
         Button openMapsBtn             = findViewById(R.id.btnOpenMaps);
         Button homeBtn                 = findViewById(R.id.btnHome);
 
-        // Observe and display prescription data
         viewModel.prescription(prescriptionId).observe(this, prescription -> {
             if (prescription == null) return;
 
@@ -69,7 +65,7 @@ public class PrescriptionDetailActivity extends AppCompatActivity {
             prescriptionNameView.setText(prescription.short_name == null ? "-" : prescription.short_name);
             descView.setText(prescription.description == null ? "-" : prescription.description);
             datesView.setText(formatDateFullMonth(prescription.start_date) + " → " + formatDateFullMonth(prescription.end_date));
-            timeTermView.setText(TimeTermStatus.labelForId(prescription.time_term_id));            doctorNameView.setText(prescription.doctor_name == null ? "-" : prescription.doctor_name);
+            timeTermView.setText(TimeTermEnum.labelForId(prescription.time_term_id));            doctorNameView.setText(prescription.doctor_name == null ? "-" : prescription.doctor_name);
             doctorLocationView.setText(prescription.doctor_location == null ? "-" : prescription.doctor_location);
             lastReceivedView.setText(prescription.last_date_received == null ? "-" : prescription.last_date_received);
             receivedTodayView.setText(prescription.has_received_today ? "Yes" : "No");
@@ -78,7 +74,6 @@ public class PrescriptionDetailActivity extends AppCompatActivity {
             openMapsBtn.setOnClickListener(v -> openMaps(prescription.doctor_location));
         });
 
-        // Button: mark as received today
         receivedTodayBtn.setOnClickListener(v ->
                 viewModel.receivedToday(prescriptionId, rows ->
                         runOnUiThread(() ->
@@ -87,16 +82,14 @@ public class PrescriptionDetailActivity extends AppCompatActivity {
                                         Toast.LENGTH_SHORT).show()))
         );
 
-        // Button: go back to Dashboard
         homeBtn.setOnClickListener(v -> {
-            Intent i = new Intent(PrescriptionDetailActivity.this, Dashboard.class);
+            Intent i = new Intent(PrescriptionDetail.this, Dashboard.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
             finish();
         });
     }
 
-    // Launch Google Maps with doctor location
     private void openMaps(String address) {
         Uri uri = Uri.parse("geo:0,0?q=" + Uri.encode(address));
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -112,7 +105,7 @@ public class PrescriptionDetailActivity extends AppCompatActivity {
             assert date != null;
             return formatter.format(date);
         } catch (Exception e) {
-            return isoDate; // fallback
+            return isoDate;
         }
     }
 

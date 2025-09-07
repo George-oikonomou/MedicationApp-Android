@@ -14,13 +14,13 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicineApp.R;
-import com.example.medicineApp.database.TimeTermStatus;
-import com.example.medicineApp.database.entity.PrescriptionDrugEntity;
+import com.example.medicineApp.database.enums.TimeTermEnum;
+import com.example.medicineApp.database.model.PrescriptionModel;
 
 import java.util.Objects;
 
 
-public class PrescriptionAdapter extends ListAdapter<PrescriptionDrugEntity, PrescriptionAdapter.PrescriptionVH> {
+public class PrescriptionAdapter extends ListAdapter<PrescriptionModel, PrescriptionAdapter.PrescriptionVH> {
 
     public PrescriptionAdapter() { super(DIFF); setHasStableIds(true); }
 
@@ -36,7 +36,6 @@ public class PrescriptionAdapter extends ListAdapter<PrescriptionDrugEntity, Pre
 
     @Override public void onBindViewHolder(@NonNull PrescriptionVH holder, int position) { holder.bind(getItem(position)); }
 
-    // ---- ViewHolder ----
     public static class PrescriptionVH extends RecyclerView.ViewHolder {
         private final TextView idView, titleView, scheduleView, datesView, subtitleView;
 
@@ -50,14 +49,14 @@ public class PrescriptionAdapter extends ListAdapter<PrescriptionDrugEntity, Pre
         }
 
         @SuppressLint("SetTextI18n")
-        void bind(@NonNull PrescriptionDrugEntity rx) {
+        void bind(@NonNull PrescriptionModel rx) {
             final Context c = itemView.getContext();
             idView.setText("ID: " + rx.uid);
 
             String name = isEmpty(rx.short_name) ? "Medication name" : rx.short_name;
             titleView.setText(name);
 
-            scheduleView.setText(TimeTermStatus.labelForId(rx.time_term_id));
+            scheduleView.setText(TimeTermEnum.labelForId(rx.time_term_id));
 
             String start = nonNull(rx.start_date), end = nonNull(rx.end_date);
             datesView.setText(start + " → " + end);
@@ -65,7 +64,7 @@ public class PrescriptionAdapter extends ListAdapter<PrescriptionDrugEntity, Pre
             if (subtitleView != null) subtitleView.setText(nonNull(rx.doctor_name));
 
             itemView.setOnClickListener(v -> {
-                Intent i = new Intent(c, PrescriptionDetailActivity.class);
+                Intent i = new Intent(c, PrescriptionDetail.class);
                 i.putExtra("uid", rx.uid);
                 c.startActivity(i);
             });
@@ -75,10 +74,9 @@ public class PrescriptionAdapter extends ListAdapter<PrescriptionDrugEntity, Pre
         private static String nonNull(String s) { return s == null ? "" : s; }
     }
 
-    // ---- DiffUtil (identity by uid, deep content compare) ----
-    private static final DiffUtil.ItemCallback<PrescriptionDrugEntity> DIFF = new DiffUtil.ItemCallback<>() {
-        @Override public boolean areItemsTheSame(@NonNull PrescriptionDrugEntity o, @NonNull PrescriptionDrugEntity n) { return o.uid == n.uid; }
-        @Override public boolean areContentsTheSame(@NonNull PrescriptionDrugEntity o, @NonNull PrescriptionDrugEntity n) {
+    private static final DiffUtil.ItemCallback<PrescriptionModel> DIFF = new DiffUtil.ItemCallback<>() {
+        @Override public boolean areItemsTheSame(@NonNull PrescriptionModel o, @NonNull PrescriptionModel n) { return o.uid == n.uid; }
+        @Override public boolean areContentsTheSame(@NonNull PrescriptionModel o, @NonNull PrescriptionModel n) {
             return o.uid == n.uid &&
                     Objects.equals(o.short_name, n.short_name) &&
                     Objects.equals(o.description, n.description) &&

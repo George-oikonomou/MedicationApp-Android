@@ -1,4 +1,4 @@
-package com.example.medicineApp.database.entity;
+package com.example.medicineApp.database.model;
 
 import android.content.ContentValues;
 
@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey;
 @Entity(
         tableName = "prescription_drug",
         foreignKeys = @ForeignKey(
-                entity = TimeTermEntity.class,
+                entity = TimeTermModel.class,
                 parentColumns = {"id"},
                 childColumns = {"time_term_id"},
                 onDelete = ForeignKey.RESTRICT
@@ -21,9 +21,8 @@ import androidx.room.PrimaryKey;
         indices = {@Index("time_term_id")}
 )
 
-public class PrescriptionDrugEntity {
+public class PrescriptionModel {
 
-    // FIELDS:
     @PrimaryKey(autoGenerate = true)
     public int uid;
 
@@ -60,16 +59,15 @@ public class PrescriptionDrugEntity {
     @Nullable
     public String last_date_received;
 
-    // ---- Constructors -----------------------------------
-    public PrescriptionDrugEntity() {}
+    public PrescriptionModel() {}
 
-    public PrescriptionDrugEntity(String short_name,
-                                  @Nullable String description,
-                                  String start_date,
-                                  String end_date,
-                                  int time_term_id,
-                                  @Nullable String doctor_name,
-                                  @Nullable String doctor_location) {
+    public PrescriptionModel(String short_name,
+                             @Nullable String description,
+                             String start_date,
+                             String end_date,
+                             int time_term_id,
+                             @Nullable String doctor_name,
+                             @Nullable String doctor_location) {
         this.short_name = short_name;
         this.description = description;
         this.start_date = start_date;
@@ -81,11 +79,9 @@ public class PrescriptionDrugEntity {
         this.has_received_today = false;
         this.last_date_received = null;
     }
-    // ---- End of Constructors ---------------------------
 
-    // METHODS: Creating a new PrescriptionDrugEntity from ContentValues
-    public static PrescriptionDrugEntity fromContentValues(ContentValues values) {
-        PrescriptionDrugEntity p = new PrescriptionDrugEntity();
+    public static PrescriptionModel fromContentValues(ContentValues values) {
+        PrescriptionModel p = new PrescriptionModel();
 
         p.uid                = getInt(values, "uid", p.uid);
         p.short_name         = getString(values, "short_name", p.short_name);

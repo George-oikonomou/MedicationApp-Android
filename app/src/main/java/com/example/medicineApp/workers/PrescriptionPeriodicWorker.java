@@ -8,8 +8,8 @@ import androidx.work.WorkerParameters;
 
 import com.example.medicineApp.database.AppDb;
 
-public class RxPeriodicWorker extends Worker {
-    public RxPeriodicWorker(@NonNull Context context, @NonNull WorkerParameters params) {
+public class PrescriptionPeriodicWorker extends Worker {
+    public PrescriptionPeriodicWorker(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
     }
 

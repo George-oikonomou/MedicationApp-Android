@@ -1,9 +1,9 @@
-package com.example.medicineApp.database;
+package com.example.medicineApp.database.enums;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum TimeTermStatus {
+public enum TimeTermEnum {
     BEFORE_BREAKFAST(1, "Before breakfast"),
     AT_BREAKFAST(2, "At breakfast"),
     AFTER_BREAKFAST(3, "After breakfast"),
@@ -17,15 +17,15 @@ public enum TimeTermStatus {
     private final int id;
     private final String label;
 
-    private static final Map<Integer, TimeTermStatus> ID_MAP = new HashMap<>();
+    private static final Map<Integer, TimeTermEnum> ID_MAP = new HashMap<>();
 
     static {
-        for (TimeTermStatus status : values()) {
+        for (TimeTermEnum status : values()) {
             ID_MAP.put(status.id, status);
         }
     }
 
-    TimeTermStatus(int id, String label) {
+    TimeTermEnum(int id, String label) {
         this.id = id;
         this.label = label;
     }
@@ -35,7 +35,7 @@ public enum TimeTermStatus {
     }
 
     public static String labelForId(int id) {
-        TimeTermStatus status = ID_MAP.get(id);
+        TimeTermEnum status = ID_MAP.get(id);
         return status != null ? status.label : "Unknown";
     }
 }

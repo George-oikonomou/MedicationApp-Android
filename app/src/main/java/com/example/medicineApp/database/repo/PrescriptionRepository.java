@@ -1,30 +1,27 @@
-package com.example.medicineApp.database;
+package com.example.medicineApp.database.repo;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.medicineApp.database.entity.PrescriptionDrugEntity;
-import com.example.medicineApp.database.entity.TimeTermEntity;
+import com.example.medicineApp.database.AppDb;
+import com.example.medicineApp.database.model.PrescriptionModel;
+import com.example.medicineApp.database.model.TimeTermModel;
 
 import java.util.List;
 
-public class RxRepository {
-    // FIELDS:
+public class PrescriptionRepository {
     private final AppDb db;
 
-    // Constructor:
-    public RxRepository(AppDb db) {
+    public PrescriptionRepository(AppDb db) {
         this.db = db;
     }
-
-    // METHODS:
-    public void addSync(PrescriptionDrugEntity prescription){
+    public void addSync(PrescriptionModel prescription){
         db.prescriptionDao().insert(prescription);
     }
-    public LiveData<List<PrescriptionDrugEntity>> observeAllDrugs() {
+    public LiveData<List<PrescriptionModel>> observeAllDrugs() {
         return db.prescriptionDao().observeAll();
     }
 
-    public LiveData<List<TimeTermEntity>> observeTimeTerms() {
+    public LiveData<List<TimeTermModel>> observeTimeTerms() {
         return db.timeTermDao().observeAll();
     }
 
@@ -32,7 +29,7 @@ public class RxRepository {
         return db.prescriptionDao().deleteById(id);
     }
 
-    public LiveData<PrescriptionDrugEntity> observeDrug(int id) { return db.prescriptionDao().observeById(id); }
+    public LiveData<PrescriptionModel> observeDrug(int id) { return db.prescriptionDao().observeById(id); }
     public int markReceivedTodaySync(int id, String today) { return db.prescriptionDao().markReceivedToday(id, today); }
     public void recompute_is_activeSync(String today){ db.prescriptionDao().recompute_is_active(today); }
 }

@@ -5,7 +5,6 @@
     android:viewportWidth="24"
     android:viewportHeight="24"
     android:tint="@color/themeColor">
-    <!-- House outline -->
     <path
         android:fillColor="@android:color/transparent"
         android:strokeColor="@color/themeColor"

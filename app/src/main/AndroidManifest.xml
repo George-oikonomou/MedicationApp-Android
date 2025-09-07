@@ -9,13 +9,13 @@
         android:theme="@style/Theme.medicineApp">
 
         <provider
-            android:name=".utilities.RxProvider"
+            android:name=".utilities.PrescriptionProvider"
             android:authorities="com.example.medicineApp.provider"
             android:exported="true"
             android:grantUriPermissions="true"/>
 
         <activity
-            android:name=".utilities.PrescriptionDetailActivity"
+            android:name=".utilities.PrescriptionDetail"
             android:parentActivityName=".Dashboard"/>
 
         <activity

@@ -13,18 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.medicineApp.database.AppDb;
-import com.example.medicineApp.database.dao.PrescriptionDAO;
-import com.example.medicineApp.database.entity.PrescriptionDrugEntity;
+import com.example.medicineApp.database.dao.PrescriptionDao;
+import com.example.medicineApp.database.model.PrescriptionModel;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class RxProvider extends ContentProvider {
+public class PrescriptionProvider extends ContentProvider {
 
-    // ───────────────────────────────
-    // Constants
-    // ───────────────────────────────
     private static final String AUTHORITY   = "com.example.medicineApp.provider";
     private static final String TABLE_NAME  = "prescription_drug";
 
@@ -40,14 +37,8 @@ public class RxProvider extends ContentProvider {
         URI_MATCHER.addURI(AUTHORITY, TABLE_NAME + "/#", PRESCRIPTION_ID);
     }
 
-    // ───────────────────────────────
-    // Fields
-    // ───────────────────────────────
-    private PrescriptionDAO prescriptionDAO;
+    private PrescriptionDao prescriptionDAO;
 
-    // ───────────────────────────────
-    // Lifecycle
-    // ───────────────────────────────
     @Override
     public boolean onCreate() {
         Context ctx = getContext();
@@ -58,9 +49,6 @@ public class RxProvider extends ContentProvider {
         return false;
     }
 
-    // ───────────────────────────────
-    // Query (READ)
-    // ───────────────────────────────
     @Nullable
     @Override
     public Cursor query(
@@ -92,7 +80,9 @@ public class RxProvider extends ContentProvider {
             }
         });
 
-        try { latch.await(); } catch (InterruptedException ignored) {}
+        try {
+            latch.await();
+        } catch (InterruptedException ignored) {}
         Cursor cursor = cursorRef.get();
 
         if (cursor != null) {
@@ -104,9 +94,6 @@ public class RxProvider extends ContentProvider {
         return cursor;
     }
 
-    // ───────────────────────────────
-    // MIME Type
-    // ───────────────────────────────
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
@@ -120,9 +107,6 @@ public class RxProvider extends ContentProvider {
         }
     }
 
-    // ───────────────────────────────
-    // Insert (CREATE)
-    // ───────────────────────────────
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
@@ -133,7 +117,7 @@ public class RxProvider extends ContentProvider {
             throw new IllegalArgumentException("ContentValues must not be null");
         }
 
-        PrescriptionDrugEntity entity = PrescriptionDrugEntity.fromContentValues(values);
+        PrescriptionModel entity = PrescriptionModel.fromContentValues(values);
 
         AtomicReference<Long> idRef = new AtomicReference<>(-1L);
         CountDownLatch latch = new CountDownLatch(1);
@@ -153,9 +137,6 @@ public class RxProvider extends ContentProvider {
         return resultUri;
     }
 
-    // ───────────────────────────────
-    // Update (UPDATE)
-    // ───────────────────────────────
     @Override
     public int update(
             @NonNull Uri uri,
@@ -182,9 +163,6 @@ public class RxProvider extends ContentProvider {
         return rows.get();
     }
 
-    // ───────────────────────────────
-    // Delete (DELETE)
-    // ───────────────────────────────
     @Override
     public int delete(
             @NonNull Uri uri,
@@ -209,9 +187,6 @@ public class RxProvider extends ContentProvider {
         return rows.get();
     }
 
-    // ───────────────────────────────
-    // Helpers
-    // ───────────────────────────────
     private void notifyChange(@NonNull Uri uri) {
         Context ctx = getContext();
         if (ctx != null) {

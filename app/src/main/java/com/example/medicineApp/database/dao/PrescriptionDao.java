@@ -10,41 +10,38 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.example.medicineApp.database.entity.PrescriptionDrugEntity;
+import com.example.medicineApp.database.model.PrescriptionModel;
 
 import java.util.List;
 
 @Dao
-public interface PrescriptionDAO {
+public interface PrescriptionDao {
     @Insert
-    long insert(PrescriptionDrugEntity entity);
+    long insert(PrescriptionModel entity);
 
     @Query("DELETE FROM prescription_drug WHERE uid = :id")
     int deleteById(int id);
 
     @Query("SELECT * FROM prescription_drug ORDER BY uid DESC")
-    LiveData<List<PrescriptionDrugEntity>> observeAll();
+    LiveData<List<PrescriptionModel>> observeAll();
 
     @Query("SELECT * FROM prescription_drug WHERE uid = :id")
-    PrescriptionDrugEntity getByIdSync(int id);
+    PrescriptionModel getByIdSync(int id);
 
     @Query("SELECT * FROM prescription_drug WHERE uid = :id")
-    LiveData<PrescriptionDrugEntity> observeById(int id);
+    LiveData<PrescriptionModel> observeById(int id);
 
     @Query("UPDATE prescription_drug SET last_date_received = :today, has_received_today = 1 WHERE uid = :id")
     int markReceivedToday(int id, String today);
 
     @Query("UPDATE prescription_drug SET is_active = CASE WHEN start_date <= :today AND end_date >= :today THEN 1 ELSE 0 END")
-    int recompute_is_active(String today);
-
-    @Query("UPDATE prescription_drug SET has_received_today = 0")
-    int resetReceivedToday();
+    void recompute_is_active(String today);
 
     @Update
-    void update(List<PrescriptionDrugEntity> drugs);
+    void update(List<PrescriptionModel> drugs);
 
     @Update
-    int update(PrescriptionDrugEntity prescription);
+    int update(PrescriptionModel prescription);
 
     @Query("SELECT * FROM prescription_drug")
     Cursor getAllAsCursor();
@@ -69,16 +66,15 @@ public interface PrescriptionDAO {
 
     @Transaction
     default long insertFromContentValues(ContentValues values) {
-        PrescriptionDrugEntity prescription = PrescriptionDrugEntity.fromContentValues(values);
+        PrescriptionModel prescription = PrescriptionModel.fromContentValues(values);
         return insert(prescription);
     }
 
     @Transaction
     default int updateFromContentValues(int id, ContentValues values) {
-        PrescriptionDrugEntity prescription = getByIdSync(id);
+        PrescriptionModel prescription = getByIdSync(id);
         if (prescription == null) return 0;
 
-        // Update simple string fields
         prescription.short_name        = values.getAsString("short_name")        != null ? values.getAsString("short_name")        : prescription.short_name;
         prescription.description       = values.getAsString("description")       != null ? values.getAsString("description")       : prescription.description;
         prescription.start_date        = values.getAsString("start_date")        != null ? values.getAsString("start_date")        : prescription.start_date;
@@ -87,11 +83,9 @@ public interface PrescriptionDAO {
         prescription.doctor_location   = values.getAsString("doctor_location")   != null ? values.getAsString("doctor_location")   : prescription.doctor_location;
         prescription.last_date_received= values.getAsString("last_date_received")!= null ? values.getAsString("last_date_received"): prescription.last_date_received;
 
-        // Update integer field
         Integer timeTermId = values.getAsInteger("time_term_id");
         if (timeTermId != null) prescription.time_term_id = timeTermId;
 
-        // Update boolean fields safely
         Boolean active = values.getAsBoolean("is_active");
         if (active != null) prescription.is_active = active;
 
@@ -100,5 +94,4 @@ public interface PrescriptionDAO {
 
         return update(prescription);
     }
-
 }

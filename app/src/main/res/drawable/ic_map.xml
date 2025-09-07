@@ -5,14 +5,12 @@
     android:viewportWidth="24"
     android:viewportHeight="24"
     android:tint="@color/themeColor">
-    <!-- Outline -->
     <path
         android:fillColor="@android:color/transparent"
         android:strokeColor="@color/themeColor"
         android:strokeWidth="2"
         android:strokeLineJoin="round"
         android:pathData="M3,6 L10,3 L14,5 L21,3 L21,18 L14,21 L10,19 L3,21 Z" />
-    <!-- Folds -->
     <path
         android:fillColor="@android:color/transparent"
         android:strokeColor="@color/themeColor"

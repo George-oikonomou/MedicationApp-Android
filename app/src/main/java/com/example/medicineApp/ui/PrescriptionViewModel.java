@@ -8,9 +8,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
 import com.example.medicineApp.database.AppDb;
-import com.example.medicineApp.database.RxRepository;
-import com.example.medicineApp.database.entity.PrescriptionDrugEntity;
-import com.example.medicineApp.database.entity.TimeTermEntity;
+import com.example.medicineApp.database.repo.PrescriptionRepository;
+import com.example.medicineApp.database.model.PrescriptionModel;
+import com.example.medicineApp.database.model.TimeTermModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,25 +23,20 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.IntConsumer;
 
-/**
- * ViewModel for managing prescriptions.
- * Handles background operations through AppDb.io().
- */
-public class RxViewModel extends AndroidViewModel {
+public class PrescriptionViewModel extends AndroidViewModel {
 
-    private final RxRepository repo;
-    public final LiveData<List<TimeTermEntity>> timeTerms;
-    public final MediatorLiveData<List<PrescriptionDrugEntity>> activePrescriptions = new MediatorLiveData<>();
+    private final PrescriptionRepository repo;
+    public final LiveData<List<TimeTermModel>> timeTerms;
+    public final MediatorLiveData<List<PrescriptionModel>> activePrescriptions = new MediatorLiveData<>();
 
     private static final SimpleDateFormat ISO = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
-    public RxViewModel(@NonNull Application app) {
+    public PrescriptionViewModel(@NonNull Application app) {
         super(app);
-        repo = new RxRepository(AppDb.get(app));
+        repo = new PrescriptionRepository(AppDb.get(app));
         timeTerms = repo.observeTimeTerms();
-        LiveData<List<PrescriptionDrugEntity>> allPrescriptions = repo.observeAllDrugs();
+        LiveData<List<PrescriptionModel>> allPrescriptions = repo.observeAllDrugs();
 
-        // Ensure today's active flags are updated
         AppDb.io().execute(() -> repo.recompute_is_activeSync(todayIso()));
 
         activePrescriptions.addSource(allPrescriptions,
@@ -50,10 +45,8 @@ public class RxViewModel extends AndroidViewModel {
                 terms -> recomputeActive(allPrescriptions.getValue(), terms));
     }
 
-    // METHODS:
-    // ---> recomputeActive: Filters and sorts the list of active prescriptions
-    private void recomputeActive(List<PrescriptionDrugEntity> prescriptions,
-                                 List<TimeTermEntity> terms) {
+    private void recomputeActive(List<PrescriptionModel> prescriptions,
+                                 List<TimeTermModel> terms) {
         if (prescriptions == null || prescriptions.isEmpty()) {
             activePrescriptions.setValue(Collections.emptyList());
             return;
@@ -66,8 +59,8 @@ public class RxViewModel extends AndroidViewModel {
 
         String today = todayIso();
 
-        List<PrescriptionDrugEntity> validPrescriptions = new ArrayList<>();
-        for (PrescriptionDrugEntity p : prescriptions) {
+        List<PrescriptionModel> validPrescriptions = new ArrayList<>();
+        for (PrescriptionModel p : prescriptions) {
             boolean inRange = p.start_date.compareTo(today) <= 0
                     && p.end_date.compareTo(today) >= 0;
             if (inRange) validPrescriptions.add(p);
@@ -81,7 +74,6 @@ public class RxViewModel extends AndroidViewModel {
         activePrescriptions.setValue(validPrescriptions);
     }
 
-    /** Adds a new prescription asynchronously. */
     public void addPrescription(String name, String description, String startIso, String endIso,
                                 int timeTermId, String doctor, String location) {
         if (name == null || name.trim().isEmpty())
@@ -91,7 +83,7 @@ public class RxViewModel extends AndroidViewModel {
 
         AppDb.io().execute(() -> {
             try {
-                repo.addSync(new PrescriptionDrugEntity(
+                repo.addSync(new PrescriptionModel(
                         name.trim(),
                         safeTrim(description),
                         startIso,
@@ -101,17 +93,15 @@ public class RxViewModel extends AndroidViewModel {
                         safeTrim(location)
                 ));
             } catch (Exception e) {
-                android.util.Log.e("RxViewModel", "Insert failed", e);
+                android.util.Log.e("PrescriptionViewModel", "Insert failed", e);
             }
         });
     }
 
-    /** Returns a prescription by UID as LiveData. */
-    public LiveData<PrescriptionDrugEntity> prescription(int uid) {
+    public LiveData<PrescriptionModel> prescription(int uid) {
         return repo.observeDrug(uid);
     }
 
-    /** Deletes a prescription asynchronously. */
     public void deleteByUid(int uid, IntCallback cb) {
         AppDb.io().execute(() -> {
             int rows = repo.deleteByIdSync(uid);
@@ -119,7 +109,6 @@ public class RxViewModel extends AndroidViewModel {
         });
     }
 
-    /** Marks a prescription as received today. */
     public void receivedToday(int uid, IntConsumer cb) {
         AppDb.io().execute(() -> {
             int rows = repo.markReceivedTodaySync(uid, todayIso());
@@ -135,7 +124,6 @@ public class RxViewModel extends AndroidViewModel {
         return ISO.format(new Date());
     }
 
-    /** Simple integer callback interface for async operations. */
     public interface IntCallback {
         void accept(int v);
     }
